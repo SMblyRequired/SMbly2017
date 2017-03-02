@@ -1,6 +1,5 @@
 package org.usfirst.frc.team5805.robot.commands;
 
-import org.usfirst.frc.team5805.robot.MathSM;
 import org.usfirst.frc.team5805.robot.OI;
 import org.usfirst.frc.team5805.robot.Robot;
 import org.usfirst.frc.team5805.robot.RobotMap;
@@ -20,16 +19,16 @@ public class MoveWithJoystick extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		//(r)right(Axis
-		
+		 
 		// left nub on y axis on drive joystick (lNubY)
 		// right num on y axis on drive joystick (rNubY)
 		
-		double driveSpeedMod = MathSM.map(OI.dStick.getRawAxis(RobotMap.RIGHT_TRIGGER), 0.0, 1.0, 0.5, 1.0);	//toggle speed with right trigger
+		double driveSpeedMod = 1;//MathSM.map(OI.dStick.getRawAxis(RobotMap.RIGHT_TRIGGER), 0.0, 1.0, 0.75, 1.0);	//toggle speed with right trigger
 		
-		double lNubY = OI.dStick.getRawAxis(RobotMap.RIGHT_X_AXIS) * driveSpeedMod;
+		double lNubY = -OI.dStick.getRawAxis(RobotMap.RIGHT_Y_AXIS) * driveSpeedMod;
 		double rNubY = -OI.dStick.getRawAxis(RobotMap.LEFT_Y_AXIS) * driveSpeedMod;
 		
-		Robot.driveTrain.driveDrive(lNubY, rNubY);
+		Robot.driveTrain.driveDriveTrain(lNubY, rNubY);
 	}
 	
 	protected boolean isFinished() {

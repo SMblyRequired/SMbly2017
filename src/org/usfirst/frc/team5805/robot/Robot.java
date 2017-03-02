@@ -1,14 +1,19 @@
 
 package org.usfirst.frc.team5805.robot;
 
+import org.usfirst.frc.team5805.robot.autos.Autonomous;
+import org.usfirst.frc.team5805.robot.commands.CloseGearManipulator;
+import org.usfirst.frc.team5805.robot.commands.OpenGearManipulator;
 import org.usfirst.frc.team5805.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team5805.robot.subsystems.GearManipulator;
 import org.usfirst.frc.team5805.robot.subsystems.Transmission;
 import org.usfirst.frc.team5805.robot.subsystems.Vision;
+import org.usfirst.frc.team5805.robot.triggers.GearTrigger;
 import org.usfirst.frc.team5805.robot.subsystems.Lift;
 import org.usfirst.frc.team5805.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -35,6 +40,8 @@ public class Robot extends IterativeRobot {
 	public static GearManipulator gearManip;
 	public static Shooter shooter;
 	
+	// Gear Manipulator Plate
+	public static GearTrigger gearTrigger;
 
 	//Vision 
 	public static Vision vision;
@@ -45,12 +52,18 @@ public class Robot extends IterativeRobot {
 		
 		airCompressor = new Compressor();
 		
+		
 		//Subsystem
 		driveTrain = new DriveTrain();
 		gearManip = new GearManipulator();
 		transmission = new Transmission();
 		shooter = new Shooter();
 		
+		// Gear Manip Triggers
+		gearTrigger = new GearTrigger();
+		gearTrigger.whenActive(new OpenGearManipulator());
+		gearTrigger.whenInactive(new CloseGearManipulator());
+					
 		//Vision
 		vision = new Vision();
 		
@@ -70,6 +83,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
+		Autonomous auto1 = new Autonomous();
 	}
 
 	/**
@@ -91,7 +105,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-
+		// System.out.println("Input 1 " + input1.get());
+		// System.out.println("Trigger " + gearTrigger.get());
+		
 		SmartDashboard.putNumber("Shooter Speed", shootSpeedVal);
 		Scheduler.getInstance().run();
 	}

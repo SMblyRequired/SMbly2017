@@ -24,16 +24,16 @@ public class DriveTrain extends Subsystem {
 		myDrive = new RobotDrive(frontLeft, rearLeft, frontRight, rearRight);
 	}
 	
-	public void driveDrive(double lStickY, double rStickY){
-		myDrive.arcadeDrive(-rStickY, lStickY); // Regular drive
-	}
-	
+	public void driveDriveTrain(double lStickY, double rStickY){
+		myDrive.tankDrive(-rStickY, -lStickY); // Regular drive
+	} 
+	 
 	public void setTurn(double turn) {
 		myDrive.arcadeDrive(turn, 0.0);
 	}
 	
 	public void stop() {
-		myDrive.arcadeDrive(0, 0);
+		myDrive.tankDrive(0, 0);
 	}
 	
 	@Override

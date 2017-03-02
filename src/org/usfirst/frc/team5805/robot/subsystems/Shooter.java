@@ -1,11 +1,6 @@
 package org.usfirst.frc.team5805.robot.subsystems;
 
-import org.usfirst.frc.team5805.robot.RobotMap;
-
 import com.ctre.CANTalon;
-
-import edu.wpi.first.wpilibj.TalonSRX;
-import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Shooter extends Subsystem {
@@ -14,7 +9,7 @@ public class Shooter extends Subsystem {
 	
 	public Shooter() {
 		shooterMotor1 = new CANTalon(7);
-		shooterMotor2 = new CANTalon(8);
+		shooterMotor2 = new CANTalon(5);
 	}
 	  
 	public void setShooterSpeed(double speed) {

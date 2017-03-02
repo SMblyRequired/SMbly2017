@@ -27,11 +27,9 @@ public class SetShooter extends Command{
 			break;
 		case SPEED_UP:
 			Robot.shootSpeedVal = (Robot.shootSpeedVal<=MAX_VAL)?Robot.shootSpeedVal+0.05:Robot.shootSpeedVal;
-			//Robot.shooter.setShooterSpeed(Robot.shootSpeedVal);
 			break;
 		case SPEED_DOWN:
 			Robot.shootSpeedVal = (Robot.shootSpeedVal>=MIN_VAL)?Robot.shootSpeedVal-0.05:Robot.shootSpeedVal;
-			//Robot.shooter.setShooterSpeed(Robot.shootSpeedVal);
 			break;
 		default:
 			Robot.shooter.setShooterSpeed(0);

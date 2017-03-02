@@ -2,7 +2,6 @@ package org.usfirst.frc.team5805.robot.commands;
 
 import org.usfirst.frc.team5805.robot.Robot;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class SetVisionLights extends Command {
