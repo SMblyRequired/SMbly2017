@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5805.robot;
 
+import org.usfirst.frc.team5805.robot.commands.CloseGearManipulator;
 import org.usfirst.frc.team5805.robot.commands.HighGear;
 import org.usfirst.frc.team5805.robot.commands.OpenGearManipulator;
 import org.usfirst.frc.team5805.robot.commands.SetLift;
@@ -19,13 +20,13 @@ public class OI {
 		oStick = new Joystick(RobotMap.OPERATOR);
 		
 		// Extend/Retract Gear Manipulator
-		Button extendGearArmBtn = new JoystickButton(dStick, RobotMap.Y_BUTTON);         	//Extend Gear Manipulator
-		OpenGearManipulator openManip = new OpenGearManipulator();
-		extendGearArmBtn.whenPressed(openManip);		
+		Button extendGearArmBtn = new JoystickButton(dStick, RobotMap.R_BUMPER);         	//Extend Gear Manipulator
+		extendGearArmBtn.whenPressed(new OpenGearManipulator());		
+		extendGearArmBtn.whenReleased(new CloseGearManipulator());
 		
 		// Toggle Transmission 
 		Button highGearBtn = new JoystickButton(dStick, RobotMap.L_BUMPER); 				//Drive With Speed
-		highGearBtn.whenPressed(new HighGear());
+		highGearBtn.whileHeld(new HighGear());
 		
 		// Robot lift
 		Button liftUp = new JoystickButton(dStick, RobotMap.BACK_BUTTON);

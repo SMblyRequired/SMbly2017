@@ -25,7 +25,8 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void driveDriveTrain(double lStickY, double rStickY){
-		myDrive.tankDrive(-rStickY, -lStickY); // Regular drive
+		//myDrive.tankDrive(-rStickY, -lStickY); // Regular drive
+			myDrive.arcadeDrive(-rStickY, lStickY);
 	} 
 	 
 	public void setTurn(double turn) {
@@ -33,7 +34,8 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public void stop() {
-		myDrive.tankDrive(0, 0);
+	//	myDrive.tankDrive(0, 0);
+		myDrive.arcadeDrive(0,0);
 	}
 	
 	@Override

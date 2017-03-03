@@ -11,11 +11,12 @@ public class HighGear extends Command {
 	}
 
 	protected boolean isFinished() {
-		return true;
+		return false;
 	}
 
 	@Override
 	protected void initialize() {
+		System.out.println("High on");
 		Robot.transmission.setState(Transmission.Gearing.HIGH);
 	}	
 	
@@ -24,6 +25,7 @@ public class HighGear extends Command {
 	}
 	
 	protected void end() {
+		System.out.println("High OFF");
 		Robot.transmission.setState(Transmission.Gearing.LOW);
 	}
 	

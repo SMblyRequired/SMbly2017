@@ -12,10 +12,14 @@ import org.usfirst.frc.team5805.robot.triggers.GearTrigger;
 import org.usfirst.frc.team5805.robot.subsystems.Lift;
 import org.usfirst.frc.team5805.robot.subsystems.Shooter;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.TimedCommand;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  
@@ -40,6 +44,9 @@ public class Robot extends IterativeRobot {
 	public static GearManipulator gearManip;
 	public static Shooter shooter;
 	
+	//Camera
+	public static CameraServer cam1;
+	
 	// Gear Manipulator Plate
 	public static GearTrigger gearTrigger;
 
@@ -60,10 +67,18 @@ public class Robot extends IterativeRobot {
 		shooter = new Shooter();
 		
 		// Gear Manip Triggers
+		CommandGroup gearManipGroup = new CommandGroup();
+		gearManipGroup.addSequential(new OpenGearManipulator());
+		gearManipGroup.addSequential(new TimedCommand(1));
+		gearManipGroup.addSequential(new CloseGearManipulator());	
+		
 		gearTrigger = new GearTrigger();
-		gearTrigger.whenActive(new OpenGearManipulator());
-		gearTrigger.whenInactive(new CloseGearManipulator());
+		gearTrigger.whenActive(gearManipGroup);
+		//gearTrigger.whenInactive(new CloseGearManipulator());
 					
+		//Camera		
+		cam1 = CameraServer.getInstance();
+		cam1.startAutomaticCapture();
 		//Vision
 		vision = new Vision();
 		
@@ -98,6 +113,7 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		airCompressor.setClosedLoopControl(true);
 		airCompressor.start();
+		
 	}
 
 	/**
