@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
 public class SetLift extends Command {
 	private Lift.Direction dir;
 	
-	public SetLift(Lift.Direction _dir) {
+	public SetLift(Lift.Direction dir) {
 		requires(Robot.lift);
-		dir = _dir;
+		this.dir = dir;
 	}
 	
 	protected void initialize() {

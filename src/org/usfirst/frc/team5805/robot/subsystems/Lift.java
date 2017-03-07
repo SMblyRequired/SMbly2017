@@ -25,6 +25,7 @@ public class Lift extends Subsystem {
 	
 	public void move(Direction dir) {
 		double outVal = (dir == Direction.UP ? -1.0 : 1.0);
+//		double outVal = (dir == Direction.UP ? -0.55 : 0.55); // TODO: Remove this, and move it to another class for the washing machine agitator
 		liftM1.set(outVal);
 		liftM2.set(outVal);
 	}

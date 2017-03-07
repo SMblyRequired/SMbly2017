@@ -1,6 +1,7 @@
 package org.usfirst.frc.team5805.robot;
 
 import org.usfirst.frc.team5805.robot.commands.CloseGearManipulator;
+import org.usfirst.frc.team5805.robot.commands.CycleShooterLoader;
 import org.usfirst.frc.team5805.robot.commands.HighGear;
 import org.usfirst.frc.team5805.robot.commands.OpenGearManipulator;
 import org.usfirst.frc.team5805.robot.commands.SetLift;
@@ -18,7 +19,7 @@ public class OI {
 		// Joysticks
 		dStick = new Joystick(RobotMap.DRIVER);
 		oStick = new Joystick(RobotMap.OPERATOR);
-		
+		 
 		// Extend/Retract Gear Manipulator
 		Button extendGearArmBtn = new JoystickButton(dStick, RobotMap.R_BUMPER);         	//Extend Gear Manipulator
 		extendGearArmBtn.whenPressed(new OpenGearManipulator());		
@@ -41,8 +42,13 @@ public class OI {
 		 
 		Button speedUpShooter = new JoystickButton(dStick, RobotMap.Y_BUTTON);
 		speedUpShooter.whileHeld(new SetShooter(SetShooter.SPEED_UP));
-		 
+		
 		Button speedDownShooter = new JoystickButton(dStick, RobotMap.A_BUTTON);
 		speedDownShooter.whileHeld(new SetShooter(SetShooter.SPEED_DOWN));
+		
+		Button cycleLoader = new JoystickButton(dStick, RobotMap.START_BUTTON);
+		cycleLoader.whenPressed(new CycleShooterLoader());
+		
+		
 	}
 }

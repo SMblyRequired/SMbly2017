@@ -14,8 +14,8 @@ public class RobotMap {
 		
 		//Can ID
 		public final static int 
-				DB_FRONTRIGHT = 4, 	// Encoder connected to this talon
-				FRONTLEFT = 2, 
+				FRONTRIGHT = 4, 	// Encoder connected to this talon (PBot Encoder)
+				FRONTLEFT = 2, 		// PBot Encoder
 				REARLEFT = 1, 		// Encoder connected to this talon
 				REARRIGHT = 3,
 				LIFT_M1 = 6,
