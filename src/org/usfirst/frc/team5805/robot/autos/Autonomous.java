@@ -22,7 +22,7 @@ public class Autonomous extends CommandGroup {
 		// 4 = Blue, boiler side
 		// 5 = Red, loading station side
 		// 6 = Red, boiler side
-
+//I'd like to make this a lot cleaner before next competition									
 		
 		switch(command) {
 		case 0: //drive forward
