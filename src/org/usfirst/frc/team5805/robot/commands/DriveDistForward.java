@@ -43,7 +43,7 @@ public class DriveDistForward extends Command implements PIDOutput {
 		
 		Robot.driveTrain.resetEncPos();
 		
-		pController = new PIDController(0.7, 0.0, 0.0, Robot.driveTrain.getRightController(), this);
+		pController = new PIDController(0.7, 0.0, 0.0, Robot.driveTrain.getLeftController(), this);
 		pController.setSetpoint(distance / WHEEL_CIRC);
 		pController.setOutputRange(0.4, 0.8);
 		pController.setAbsoluteTolerance(0.1);
@@ -57,8 +57,8 @@ public class DriveDistForward extends Command implements PIDOutput {
 
 	@Override
 	protected void execute() {
-		System.out.println("DT Encoder: " + Robot.driveTrain.getRightController().pidGet() + " - Set point: " + (distance / WHEEL_CIRC) + " - Derr " + pController.getError());
-		Robot.driveTrain.arcadeDrive(-curPidVal, 0.0);
+		System.out.println("DT Encoder: " + Robot.driveTrain.getLeftController().pidGet() + " - Set point: " + (distance / WHEEL_CIRC) + " - Derr " + pController.getError());
+		Robot.driveTrain.arcadeDrive(curPidVal, 0.0);
 	}
 
 	@Override

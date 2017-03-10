@@ -7,11 +7,14 @@ public class Camera extends Subsystem {
 	CameraServer axisCam;
 	//CameraServer usbCamera;
 	
+	//forget this for FRC Competition, will work on it later
+	
+	
 	public Camera(/*int in*/) {
 /*		switch(in) {
 		case 1:
 */			axisCam = CameraServer.getInstance();
-			axisCam.addAxisCamera("AxisCam", "10.58.5.15");
+			axisCam.addAxisCamera("Axi-Cam", "10.58.5.15");
 /*			break;
 		case 2:
 //			usbCamera = CameraServer.getInstance();

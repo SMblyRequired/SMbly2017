@@ -47,9 +47,9 @@ public class Turn extends Command implements PIDOutput {
 		
 		Robot.ahrs.reset();						// Reset gyro yaw, or we can just add to it which might be a better option if we want to get the gyro value at another point in the code.
 		
-		kp = 0.025; //0.03
-		ki = 0.005; //0.00
-		kd = 0.07; //0.12
+		kp = 0.093; //0.03 .0925
+		ki = 0.00; //0.00 
+		kd = 0.11; //0.12
 		
 		pid = new PIDController(kp, ki, kd, 0.0, Robot.ahrs, this); // 0.03, 0.00, 0.12 || 0.04, 0.00, 0.1
 		pid.setInputRange(-180.0f, 180.0f);

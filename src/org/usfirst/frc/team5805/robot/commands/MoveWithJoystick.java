@@ -27,7 +27,7 @@ public class MoveWithJoystick extends Command {
 		double driveSpeedMod = /* 1;*/MathSM.map(OI.dStick.getRawAxis(RobotMap.RIGHT_TRIGGER), 0.0, 1.0, 0.75, 1.0);	//toggle speed with right trigger
 		
 		double lNubY = OI.dStick.getRawAxis(RobotMap.RIGHT_X_AXIS) * driveSpeedMod;
-		double rNubY = -OI.dStick.getRawAxis(RobotMap.LEFT_Y_AXIS) * driveSpeedMod;
+		double rNubY = OI.dStick.getRawAxis(RobotMap.LEFT_Y_AXIS) * driveSpeedMod;
 		
 		Robot.driveTrain.driveDriveTrain(lNubY, rNubY);
 	}

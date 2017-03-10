@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  
  
@@ -63,15 +64,23 @@ public class Robot extends IterativeRobot {
 	//public static Agitator agitator;
 	
 	//Camera
-	public static CameraServer cam1;
-	public static Camera axisCam;
+//	public static CameraServer cam1;
+
+	
+//	public static Camera axisCam;
 	//public static Camera usbCamera;
+	
+	public static CameraServer axiCam;
 	
 	// Gear Manipulator Plate
 	public static GearTrigger gearTrigger;
 
 	//Vision 
 	public static Vision vision;
+
+	//Auto
+	private Command autoCommand;
+	private SendableChooser autoChoice; 
 	
 	@Override
 	public void robotInit() {
@@ -97,15 +106,37 @@ public class Robot extends IterativeRobot {
 		//gearTrigger.whenInactive(new CloseGearManipulator());
 					
 		//Camera		
-		cam1 = CameraServer.getInstance();
-		cam1.startAutomaticCapture();
-		axisCam = new Camera();
+//		cam1 = CameraServer.getInstance();
+//		cam1.startAutomaticCapture();
+//		axisCam = new Camera();			
+		axiCam = CameraServer.getInstance();
+		axiCam.addAxisCamera("Axi-Cam", "10.58.5.15");
 		//usbCamera = new Camera(2);
-		
+
 		//Vision
 		vision = new Vision();
 
 		ahrs = new AHRS(SPI.Port.kMXP);
+		
+		// Current auto is for blue alliance start on side with single driver station
+		
+//		autoChoice = new SendableChooser<CommandGroup>();
+	
+		autoChoice = new SendableChooser();
+		autoChoice.addDefault("Default", new Autonomous(7));
+		autoChoice.addDefault("Straight line", new Autonomous(0));
+		autoChoice.addObject("Straight, turn right", new Autonomous(1));
+		autoChoice.addObject("Straight, turn left", new Autonomous(2));
+		autoChoice.addObject("Blue, loading", new Autonomous(3));
+		autoChoice.addObject("Blue, boiler", new Autonomous(4));
+		autoChoice.addObject("Red, loading", new Autonomous(5));
+		autoChoice.addObject("Red, boiler", new Autonomous(6));
+		SmartDashboard.putData("Auto Choice", autoChoice);
+		
+//		autoChoice.addDefault("Center Gear", new CenterGearAuto);
+//		autoChoice.addObject("Red Alliance, Left Gear", new RLeftAuto);
+//		autoChoice.addObject("Red Alliance, Right Gear", new RRightAuto);
+		// Insert the rest here...
 		
 		
 		oi = new OI();
@@ -125,6 +156,13 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		Robot.driveTrain.resetEncPos();
+		Robot.driveTrain.frontLeft.setVoltageRampRate(24);
+		Robot.driveTrain.frontRight.setVoltageRampRate(24);
+		Robot.driveTrain.rearLeft.setVoltageRampRate(24);
+		Robot.driveTrain.rearRight.setVoltageRampRate(24);
+		//autoCommand = (CommandGroup)SmartDashboard.getData("Auto Choice");
+		autoCommand = (Command)autoChoice.getSelected();
+		autoCommand.start();
 		
 		//CommandGroup test = new CommandGroup();
 		/*
@@ -140,8 +178,8 @@ public class Robot extends IterativeRobot {
 		this.addSequential(new TimedCommand(2));
 		this.addSequential(new DriveDistBackward(40.0));
 		*/
-		Command auto1 = new Autonomous();
-		auto1.start();
+		//Command auto1 = new Autonomous();
+		//auto1.start();
 	}
 
 	/**
@@ -150,11 +188,17 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber("Encoder pidGet()", Robot.driveTrain.getLeftController().pidGet());
+//		SmartDashboard.putNumber("Encoder pidGet()", Robot.driveTrain.getLeftController().pidGet());
 	}
 
 	@Override
 	public void teleopInit() {
+
+		Robot.driveTrain.frontLeft.setVoltageRampRate(96);
+		Robot.driveTrain.frontRight.setVoltageRampRate(96);
+		Robot.driveTrain.rearLeft.setVoltageRampRate(96);
+		Robot.driveTrain.rearRight.setVoltageRampRate(96);
+		
 		airCompressor.setClosedLoopControl(true);
 		airCompressor.start();
 		
@@ -169,6 +213,8 @@ public class Robot extends IterativeRobot {
 		// System.out.println("Input 1 " + input1.get());
 		// System.out.println("Trigger " + gearTrigger.get());
 		
+		System.out.println("left enc: " + driveTrain.getLeftController().pidGet());
+		
 		SmartDashboard.putNumber("Shooter Speed", shootSpeedVal);
 		SmartDashboard.putNumber("Shooter Velocity", Robot.shooter.shooterMotor2.getEncVelocity());
 		SmartDashboard.putNumber("Max Velocity", SetShooter.getMaxEncoderVel(shooterVelocity));
@@ -179,7 +225,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Left Vel: ", Robot.driveTrain.getLeftVel());
 		SmartDashboard.putNumber("Right Vel: ", Robot.driveTrain.getRightVel());
 		
-		SmartDashboard.putData("Axis Camera", axisCam);
 		//SmartDashboard.putData("USB Camera", usbCamera);
 		
 		Scheduler.getInstance().run();

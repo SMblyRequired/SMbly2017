@@ -21,7 +21,8 @@ public class OI {
 		oStick = new Joystick(RobotMap.OPERATOR);
 		 
 		// Extend/Retract Gear Manipulator
-		Button extendGearArmBtn = new JoystickButton(dStick, RobotMap.R_BUMPER);         	//Extend Gear Manipulator
+		
+		Button extendGearArmBtn = new JoystickButton(oStick, RobotMap.R_BUMPER);         	//Extend Gear Manipulator
 		extendGearArmBtn.whenPressed(new OpenGearManipulator());		
 		extendGearArmBtn.whenReleased(new CloseGearManipulator());
 		
@@ -30,23 +31,23 @@ public class OI {
 		highGearBtn.whileHeld(new HighGear());
 		
 		// Robot lift
-		Button liftUp = new JoystickButton(dStick, RobotMap.BACK_BUTTON);
+		Button liftUp = new JoystickButton(oStick, RobotMap.L_BUMPER);
 		liftUp.whileHeld(new SetLift(Lift.Direction.UP));
 		
 		// Shooter, testing using one class instead of 4 different ones
-		Button startShooter = new JoystickButton(dStick, RobotMap.X_BUTTON);
+		Button startShooter = new JoystickButton(oStick, RobotMap.X_BUTTON);
 		startShooter.whenPressed(new SetShooter(SetShooter.START));
 
-		Button stopShooter = new JoystickButton(dStick, RobotMap.B_BUTTON);
+		Button stopShooter = new JoystickButton(oStick, RobotMap.B_BUTTON);
 		stopShooter.whenPressed(new SetShooter(SetShooter.STOP));
 		 
-		Button speedUpShooter = new JoystickButton(dStick, RobotMap.Y_BUTTON);
+		Button speedUpShooter = new JoystickButton(oStick, RobotMap.Y_BUTTON);
 		speedUpShooter.whileHeld(new SetShooter(SetShooter.SPEED_UP));
 		
-		Button speedDownShooter = new JoystickButton(dStick, RobotMap.A_BUTTON);
+		Button speedDownShooter = new JoystickButton(oStick, RobotMap.A_BUTTON);
 		speedDownShooter.whileHeld(new SetShooter(SetShooter.SPEED_DOWN));
 		
-		Button cycleLoader = new JoystickButton(dStick, RobotMap.START_BUTTON);
+		Button cycleLoader = new JoystickButton(oStick, RobotMap.START_BUTTON);
 		cycleLoader.whenPressed(new CycleShooterLoader());
 		
 		
