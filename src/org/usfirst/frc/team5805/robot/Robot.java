@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  
@@ -61,6 +62,10 @@ public class Robot extends IterativeRobot {
 	public static Lift lift;
 	public static GearManipulator gearManip;
 	public static Shooter shooter;
+	
+	
+	public static boolean practiceRobot = true;
+	
 	//public static Agitator agitator;
 	
 	//Camera
@@ -96,6 +101,7 @@ public class Robot extends IterativeRobot {
 		shooter = new Shooter();
 		
 		// Gear Manip Triggers
+		//lets put this in a class once competition is over
 		CommandGroup gearManipGroup = new CommandGroup();
 		gearManipGroup.addSequential(new OpenGearManipulator());
 		gearManipGroup.addSequential(new TimedCommand(1));
@@ -108,7 +114,9 @@ public class Robot extends IterativeRobot {
 		//Camera		
 //		cam1 = CameraServer.getInstance();
 //		cam1.startAutomaticCapture();
-//		axisCam = new Camera();			
+//		axisCam = new Camera();	
+		
+		//seeing if taking out of the class will help, don't really need camera for driving
 		axiCam = CameraServer.getInstance();
 		axiCam.addAxisCamera("Axi-Cam", "10.58.5.15");
 		//usbCamera = new Camera(2);
@@ -122,17 +130,24 @@ public class Robot extends IterativeRobot {
 		
 //		autoChoice = new SendableChooser<CommandGroup>();
 	
+		//I'll clean this up later
 		autoChoice = new SendableChooser();
-		autoChoice.addDefault("Default", new Autonomous(7));
-		autoChoice.addDefault("Straight line", new Autonomous(0));
-		autoChoice.addObject("Straight, turn right", new Autonomous(1));
-		autoChoice.addObject("Straight, turn left", new Autonomous(2));
+		autoChoice.addDefault("No auto", new Autonomous(7));
+		autoChoice.addDefault("Straight line, no gear", new Autonomous(0));
+		autoChoice.addObject("Straight gear, turn left", new Autonomous(1));
+		autoChoice.addObject("Straight gear, turn right", new Autonomous(2));
 		autoChoice.addObject("Blue, loading", new Autonomous(3));
 		autoChoice.addObject("Blue, boiler", new Autonomous(4));
 		autoChoice.addObject("Red, loading", new Autonomous(5));
 		autoChoice.addObject("Red, boiler", new Autonomous(6));
 		SmartDashboard.putData("Auto Choice", autoChoice);
 		
+		NetworkTable.getTable("SmartDashboard");
+
+		
+		SmartDashboard.putNumber("Turn Angle: ", ahrs.getAngle());
+		
+		SmartDashboard.putData("AHRS", ahrs);
 //		autoChoice.addDefault("Center Gear", new CenterGearAuto);
 //		autoChoice.addObject("Red Alliance, Left Gear", new RLeftAuto);
 //		autoChoice.addObject("Red Alliance, Right Gear", new RRightAuto);
@@ -144,7 +159,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledInit() {
-
+		
 	}
 
 	@Override
@@ -156,10 +171,13 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		Robot.driveTrain.resetEncPos();
+		ahrs.reset();
 		Robot.driveTrain.frontLeft.setVoltageRampRate(24);
 		Robot.driveTrain.frontRight.setVoltageRampRate(24);
 		Robot.driveTrain.rearLeft.setVoltageRampRate(24);
 		Robot.driveTrain.rearRight.setVoltageRampRate(24);
+		SmartDashboard.putData("AHRS", ahrs);
+	
 		//autoCommand = (CommandGroup)SmartDashboard.getData("Auto Choice");
 		autoCommand = (Command)autoChoice.getSelected();
 		autoCommand.start();
@@ -189,11 +207,12 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 //		SmartDashboard.putNumber("Encoder pidGet()", Robot.driveTrain.getLeftController().pidGet());
+		SmartDashboard.putData("AHRS", ahrs);
 	}
 
 	@Override
 	public void teleopInit() {
-
+		//We should make the driveTrain motors an ArrayList next time...
 		Robot.driveTrain.frontLeft.setVoltageRampRate(96);
 		Robot.driveTrain.frontRight.setVoltageRampRate(96);
 		Robot.driveTrain.rearLeft.setVoltageRampRate(96);
@@ -213,7 +232,8 @@ public class Robot extends IterativeRobot {
 		// System.out.println("Input 1 " + input1.get());
 		// System.out.println("Trigger " + gearTrigger.get());
 		
-		System.out.println("left enc: " + driveTrain.getLeftController().pidGet());
+		//System.out.println("left enc: " + driveTrain.getLeftController().pidGet());
+		SmartDashboard.putNumber("Turn Angle: ", ahrs.getAngle());
 		
 		SmartDashboard.putNumber("Shooter Speed", shootSpeedVal);
 		SmartDashboard.putNumber("Shooter Velocity", Robot.shooter.shooterMotor2.getEncVelocity());

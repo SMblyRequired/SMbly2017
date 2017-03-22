@@ -67,6 +67,9 @@ public class DriveTrain extends Subsystem {
 		myDrive.arcadeDrive(0, turn);
 	}
 	
+	public void setCurve(double curPIDval, double turn) {
+		myDrive.arcadeDrive(curPIDval, turn);
+	}
 	public void stop() {
 	//	myDrive.tankDrive(0, 0);
 		myDrive.arcadeDrive(0,0);
@@ -93,5 +96,11 @@ public class DriveTrain extends Subsystem {
 	public CANTalon getRightController() {
 		return frontRight;
 	}
+
+	public void tankDrive(double left, double right) {
+		// TODO Auto-generated method stub
+		myDrive.tankDrive(left, right);
+	}
+
 
 }

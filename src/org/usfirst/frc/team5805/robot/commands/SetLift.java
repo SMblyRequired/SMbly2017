@@ -7,10 +7,12 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class SetLift extends Command {
 	private Lift.Direction dir;
+//	private double scalerAdj;
 	
-	public SetLift(Lift.Direction dir) {
+	public SetLift(Lift.Direction dir/*, double scalerAdj*/) {
 		requires(Robot.lift);
 		this.dir = dir;
+//		this.scalerAdj = scalerAdj;
 	}
 	
 	protected void initialize() {
@@ -18,7 +20,7 @@ public class SetLift extends Command {
 	}
 	
 	protected void execute() {
-		Robot.lift.move(dir);
+		Robot.lift.move(dir/*, scalerAdj*/);
 	}
 	
 	protected void end() {

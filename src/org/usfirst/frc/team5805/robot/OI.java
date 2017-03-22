@@ -26,6 +26,12 @@ public class OI {
 		extendGearArmBtn.whenPressed(new OpenGearManipulator());		
 		extendGearArmBtn.whenReleased(new CloseGearManipulator());
 		
+		//Extend Gear Driver command
+
+		Button extendGearArmBtnDriver = new JoystickButton(dStick, RobotMap.Y_BUTTON);         	//Extend Gear Manipulator
+		extendGearArmBtnDriver.whenPressed(new OpenGearManipulator());		
+		extendGearArmBtnDriver.whenReleased(new CloseGearManipulator());
+		
 		// Toggle Transmission 
 		Button highGearBtn = new JoystickButton(dStick, RobotMap.L_BUMPER); 				//Drive With Speed
 		highGearBtn.whileHeld(new HighGear());
@@ -33,6 +39,10 @@ public class OI {
 		// Robot lift
 		Button liftUp = new JoystickButton(oStick, RobotMap.L_BUMPER);
 		liftUp.whileHeld(new SetLift(Lift.Direction.UP));
+		
+		// Robot lift for driver
+		Button liftUpDriver = new JoystickButton(dStick, RobotMap.START_BUTTON);
+		liftUpDriver.whileHeld(new SetLift(Lift.Direction.UP));
 		
 		// Shooter, testing using one class instead of 4 different ones
 		Button startShooter = new JoystickButton(oStick, RobotMap.X_BUTTON);

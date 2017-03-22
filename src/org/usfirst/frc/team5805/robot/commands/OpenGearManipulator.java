@@ -1,6 +1,8 @@
 package org.usfirst.frc.team5805.robot.commands;
 
+import org.usfirst.frc.team5805.robot.OI;
 import org.usfirst.frc.team5805.robot.Robot;
+import org.usfirst.frc.team5805.robot.RobotMap;
 import org.usfirst.frc.team5805.robot.subsystems.GearManipulator;
 import org.usfirst.frc.team5805.robot.triggers.GearTrigger;
 
@@ -26,6 +28,8 @@ public class OpenGearManipulator extends Command {
 	
 	@Override
 	protected boolean isFinished() {
+		if(OI.oStick.getRawButton(RobotMap.R_BUMPER))
+			return false;
 		return true;
 	}
 

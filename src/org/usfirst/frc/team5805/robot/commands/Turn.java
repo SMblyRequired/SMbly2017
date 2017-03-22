@@ -33,7 +33,7 @@ public class Turn extends Command implements PIDOutput {
         dirToAng = Collections.unmodifiableMap(tmpMap);
 	}
 	
-	static final double toleranceDeg = 2.0f; 	// How many degrees we allow the controller to be off
+	static final double toleranceDeg = 1.f; 	// How many degrees we allow the controller to be off
 	private double curSolution; 				// Current solution provided by the PID controller
 	private double angle;						// Angle we are moving towards
 	private PIDController pid;					// PID Controller
@@ -47,23 +47,27 @@ public class Turn extends Command implements PIDOutput {
 		
 		Robot.ahrs.reset();						// Reset gyro yaw, or we can just add to it which might be a better option if we want to get the gyro value at another point in the code.
 		
-		kp = 0.093; //0.03 .0925
-		ki = 0.00; //0.00 
-		kd = 0.11; //0.12
+		//Takes three seconds to get the right angle
+		kp = 0.13; //0.03 .0925 //0.15 //.145 //Faz .13
+		ki = 0.0355; //0.00 //0.03 //Faz 0.0355
+		kd = 0.23; //0.12  .11  //0.28 //0.325 //.28 //.255 //Faz .23
 		
 		pid = new PIDController(kp, ki, kd, 0.0, Robot.ahrs, this); // 0.03, 0.00, 0.12 || 0.04, 0.00, 0.1
 		pid.setInputRange(-180.0f, 180.0f);
-		pid.setOutputRange(-1.0, 1.0); // -0.7, 0.7
+		pid.setOutputRange(-0.75, 0.75); // -0.7, 0.7
 		pid.setAbsoluteTolerance(toleranceDeg);
 		pid.setContinuous(true);
 		pid.setSetpoint(angle);
 		pid.enable();
-		
+		 
 		LiveWindow.addActuator("DriveSystem", "TurnCommand", pid);
 	}
 	
 	public Turn(Direction dir) {
 		this(dirToAng.get(dir));
+
+		//delete after
+		Robot.ahrs.reset();
 	}
 	
 	public Turn() {
@@ -71,7 +75,12 @@ public class Turn extends Command implements PIDOutput {
 	}
 	
 	protected void execute() {
+		Robot.driveTrain.frontLeft.setVoltageRampRate(0);
+		Robot.driveTrain.frontRight.setVoltageRampRate(0);
+		Robot.driveTrain.rearLeft.setVoltageRampRate(0);
+		Robot.driveTrain.rearRight.setVoltageRampRate(0);
 		SmartDashboard.putNumber("Turn error: ", pid.getError());
+		
 		
 		Robot.driveTrain.setTurn(curSolution);
 	}
@@ -79,6 +88,10 @@ public class Turn extends Command implements PIDOutput {
 	protected void end() {
 		pid.disable();
 		Robot.driveTrain.stop();
+		Robot.driveTrain.frontLeft.setVoltageRampRate(96);
+		Robot.driveTrain.frontRight.setVoltageRampRate(96);
+		Robot.driveTrain.rearLeft.setVoltageRampRate(96);
+		Robot.driveTrain.rearRight.setVoltageRampRate(96);
 	}
 	
 	protected void interrupted() {
@@ -90,6 +103,10 @@ public class Turn extends Command implements PIDOutput {
 		return false;//pid.onTarget();
 	}
 	
+	public double getCurSolution() {
+		return curSolution;
+	}
+	
 	@Override
 	public void pidWrite(double output) {
 		//System.out.println("Current solution: " + output);
@@ -99,6 +116,10 @@ public class Turn extends Command implements PIDOutput {
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
-		
+		Robot.driveTrain.frontLeft.setVoltageRampRate(0);
+		Robot.driveTrain.frontRight.setVoltageRampRate(0);
+		Robot.driveTrain.rearLeft.setVoltageRampRate(0);
+		Robot.driveTrain.rearRight.setVoltageRampRate(0);
+
 	}
 }

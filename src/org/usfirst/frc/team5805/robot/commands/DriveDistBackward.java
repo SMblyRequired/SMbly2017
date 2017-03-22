@@ -27,6 +27,8 @@ public class DriveDistBackward extends Command implements PIDOutput, PIDSource {
 	
 	private PIDController pController;
 	
+	
+	
 	/**
 	 * Drives the robot straight for a given distance
 	 * @param distance - distance in inches
@@ -55,7 +57,7 @@ public class DriveDistBackward extends Command implements PIDOutput, PIDSource {
 	@Override
 	protected void execute() {
 		System.out.println("DT Encoder: " + pidGet() + " - Set point: " + (distance / WHEEL_CIRC) + " - Derr " + pController.getError());
-		Robot.driveTrain.arcadeDrive(-curPidVal, 0.0);
+		Robot.driveTrain.arcadeDrive((Robot.practiceRobot)?curPidVal:-curPidVal, 0.0);
 	}
 
 	@Override
@@ -91,6 +93,6 @@ public class DriveDistBackward extends Command implements PIDOutput, PIDSource {
 
 	@Override
 	public double pidGet() {
-		return -1 * Robot.driveTrain.getLeftController().getPosition();
+		return -1 * ((Robot.practiceRobot)?Robot.driveTrain.getRightController().getPosition():Robot.driveTrain.getLeftController().getPosition());
 	}
 }

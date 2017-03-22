@@ -1,6 +1,8 @@
 package org.usfirst.frc.team5805.robot.commands;
 
+import org.usfirst.frc.team5805.robot.OI;
 import org.usfirst.frc.team5805.robot.Robot;
+import org.usfirst.frc.team5805.robot.RobotMap;
 import org.usfirst.frc.team5805.robot.subsystems.GearManipulator;
 import org.usfirst.frc.team5805.robot.triggers.GearTrigger;
 
@@ -23,7 +25,7 @@ public class CloseGearManipulator extends Command {
 	protected void interrupted() {
 		end();
 	}
-	
+	 
 	@Override
 	protected boolean isFinished() {
 		return true;

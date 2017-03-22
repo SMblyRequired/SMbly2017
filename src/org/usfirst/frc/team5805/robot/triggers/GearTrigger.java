@@ -1,5 +1,7 @@
 package org.usfirst.frc.team5805.robot.triggers;
+import org.usfirst.frc.team5805.robot.OI;
 import org.usfirst.frc.team5805.robot.Robot;
+import org.usfirst.frc.team5805.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.buttons.Trigger;
@@ -14,8 +16,8 @@ public class GearTrigger extends Trigger {
 		input4 = new DigitalInput(3);
 	}
 	
-	@Override
+	@Override 
 	public boolean get() {
-		return (!input1.get() || !input2.get() || !input3.get() || !input4.get());
+		return ((!input1.get() || !input2.get() || !input3.get() || !input4.get()) && (OI.oStick.getRawAxis(RobotMap.RIGHT_TRIGGER) >= 0.5));
 	}
 }

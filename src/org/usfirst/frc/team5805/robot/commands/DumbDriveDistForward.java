@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveDistForward extends Command implements PIDOutput {
+public class DumbDriveDistForward extends Command implements PIDOutput {
 	private double curPidVal, curvePidVal;
 	private double distance;
 	
@@ -31,25 +31,21 @@ public class DriveDistForward extends Command implements PIDOutput {
 
 	private PIDController pController;
 	
-	
-
-	
 	/**
 	 * Drives the robot straight for a given distance
 	 * @param distance - distance in inches
 	 */
-	public DriveDistForward(double _distance) {
+	public DumbDriveDistForward(double _distance) {
 		requires(Robot.driveTrain);
 		
 		distance = _distance;
 		
-		System.out.println("Driving " + distance + " inches.");
 		
 		Robot.driveTrain.resetEncPos();
 		
-		pController = new PIDController(0.7, 0.0, 0.0, ((Robot.practiceRobot)?Robot.driveTrain.getRightController():Robot.driveTrain.getLeftController()), this);
+		pController = new PIDController(0.7, 0.0, 0.0, Robot.driveTrain.getLeftController(), this);
 		pController.setSetpoint(distance / WHEEL_CIRC);
-		pController.setOutputRange(0.4, 0.7);
+		pController.setOutputRange(0.4, 0.8);
 		pController.setAbsoluteTolerance(0.1);
 		pController.enable();
 	}
@@ -57,17 +53,12 @@ public class DriveDistForward extends Command implements PIDOutput {
 	@Override
 	protected void initialize() {
 		Robot.driveTrain.resetEncPos();
-
-		Robot.driveTrain.frontLeft.setVoltageRampRate(96);
-		Robot.driveTrain.frontRight.setVoltageRampRate(96);
-		Robot.driveTrain.rearLeft.setVoltageRampRate(96);
-		Robot.driveTrain.rearRight.setVoltageRampRate(96);
 	}
 
 	@Override
 	protected void execute() {
-		System.out.println("DT Encoder: " + ((Robot.practiceRobot)?Robot.driveTrain.getRightController().pidGet():Robot.driveTrain.getLeftController().pidGet()) + " - Set point: " + (distance / WHEEL_CIRC) + " - Derr " + pController.getError());
-		Robot.driveTrain.arcadeDrive((Robot.practiceRobot)?-curPidVal:curPidVal, 0.0);
+		System.out.println("DT Encoder: " + Robot.driveTrain.getLeftController().pidGet() + " - Set point: " + (distance / WHEEL_CIRC) + " - Derr " + pController.getError());
+		//Robot.driveTrain.arcadeDrive(curPidVal, 0.0);
 	}
 
 	@Override

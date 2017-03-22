@@ -4,13 +4,18 @@ import org.usfirst.frc.team5805.robot.MathSM;
 import org.usfirst.frc.team5805.robot.OI;
 import org.usfirst.frc.team5805.robot.Robot;
 import org.usfirst.frc.team5805.robot.RobotMap;
+import org.usfirst.frc.team5805.robot.ToggleButton;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class MoveWithJoystick extends Command {
 	
+	private ToggleButton directionToggle;
+	
+	
 	public MoveWithJoystick() {
 		requires(Robot.driveTrain);
+		directionToggle = new ToggleButton(OI.dStick, RobotMap.X_BUTTON);
 	}		
 	// Called just before this Command runs the first time
 	protected void initialize() {
@@ -28,6 +33,10 @@ public class MoveWithJoystick extends Command {
 		
 		double lNubY = OI.dStick.getRawAxis(RobotMap.RIGHT_X_AXIS) * driveSpeedMod;
 		double rNubY = OI.dStick.getRawAxis(RobotMap.LEFT_Y_AXIS) * driveSpeedMod;
+
+		if (directionToggle.getStatus()) {
+			rNubY = -rNubY;
+		}
 		
 		Robot.driveTrain.driveDriveTrain(lNubY, rNubY);
 	}
