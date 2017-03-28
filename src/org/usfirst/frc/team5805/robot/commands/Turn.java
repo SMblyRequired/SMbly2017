@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.usfirst.frc.team5805.robot.Robot;
+import org.usfirst.frc.team5805.robot.subsystems.Transmission;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -33,7 +34,7 @@ public class Turn extends Command implements PIDOutput {
         dirToAng = Collections.unmodifiableMap(tmpMap);
 	}
 	
-	static final double toleranceDeg = 1.f; 	// How many degrees we allow the controller to be off
+	static final double toleranceDeg = 0.5f; 	// How many degrees we allow the controller to be off
 	private double curSolution; 				// Current solution provided by the PID controller
 	private double angle;						// Angle we are moving towards
 	private PIDController pid;					// PID Controller
@@ -44,13 +45,13 @@ public class Turn extends Command implements PIDOutput {
 		setInterruptible(false);
 		
 		angle = _angle;
-		
+		 
 		Robot.ahrs.reset();						// Reset gyro yaw, or we can just add to it which might be a better option if we want to get the gyro value at another point in the code.
 		
 		//Takes three seconds to get the right angle
-		kp = 0.13; //0.03 .0925 //0.15 //.145 //Faz .13
-		ki = 0.0355; //0.00 //0.03 //Faz 0.0355
-		kd = 0.23; //0.12  .11  //0.28 //0.325 //.28 //.255 //Faz .23
+		kp = 0.091; //Faz .16   
+		ki = 0.0124; //Faz 0.03
+		kd = 0.0; //Faz .24
 		
 		pid = new PIDController(kp, ki, kd, 0.0, Robot.ahrs, this); // 0.03, 0.00, 0.12 || 0.04, 0.00, 0.1
 		pid.setInputRange(-180.0f, 180.0f);
@@ -81,18 +82,19 @@ public class Turn extends Command implements PIDOutput {
 		Robot.driveTrain.rearRight.setVoltageRampRate(0);
 		SmartDashboard.putNumber("Turn error: ", pid.getError());
 		
-		
+
+	//	Robot.transmission.setState(Transmission.Gearing.LOW);
 		Robot.driveTrain.setTurn(curSolution);
 	}
 	
 	protected void end() {
 		pid.disable();
-		Robot.driveTrain.stop();
+/*		Robot.driveTrain.stop();
 		Robot.driveTrain.frontLeft.setVoltageRampRate(96);
 		Robot.driveTrain.frontRight.setVoltageRampRate(96);
 		Robot.driveTrain.rearLeft.setVoltageRampRate(96);
 		Robot.driveTrain.rearRight.setVoltageRampRate(96);
-	}
+*/	}
 	
 	protected void interrupted() {
 		end();
@@ -115,11 +117,12 @@ public class Turn extends Command implements PIDOutput {
 
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
+/*		// TODO Auto-generated method stub
 		Robot.driveTrain.frontLeft.setVoltageRampRate(0);
 		Robot.driveTrain.frontRight.setVoltageRampRate(0);
 		Robot.driveTrain.rearLeft.setVoltageRampRate(0);
 		Robot.driveTrain.rearRight.setVoltageRampRate(0);
-
+*/
+//		Robot.transmission.setState(Transmission.Gearing.LOW);
 	}
 }

@@ -17,11 +17,10 @@ public class HighGear extends Command {
 	@Override
 	protected void initialize() {
 		System.out.println("High on");
-		Robot.transmission.setState(Transmission.Gearing.HIGH);
 	}	
 	
 	protected void execute() {
-		
+		Robot.transmission.setState(Transmission.Gearing.HIGH);
 	}
 	
 	protected void end() {

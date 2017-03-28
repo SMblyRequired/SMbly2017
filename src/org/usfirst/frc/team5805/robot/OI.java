@@ -28,7 +28,8 @@ public class OI {
 		
 		//Extend Gear Driver command
 
-		Button extendGearArmBtnDriver = new JoystickButton(dStick, RobotMap.Y_BUTTON);         	//Extend Gear Manipulator
+		Button extendGearArmBtnDriver = new JoystickButton(dStick, RobotMap.Y_BUTTON); 
+	//Extend Gear Manipulator
 		extendGearArmBtnDriver.whenPressed(new OpenGearManipulator());		
 		extendGearArmBtnDriver.whenReleased(new CloseGearManipulator());
 		
@@ -58,7 +59,7 @@ public class OI {
 		speedDownShooter.whileHeld(new SetShooter(SetShooter.SPEED_DOWN));
 		
 		Button cycleLoader = new JoystickButton(oStick, RobotMap.START_BUTTON);
-		cycleLoader.whenPressed(new CycleShooterLoader());
+		cycleLoader.whileHeld(new CycleShooterLoader());
 		
 		
 	}

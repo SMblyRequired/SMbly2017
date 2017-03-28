@@ -46,23 +46,24 @@ public class DriveDistForward extends Command implements PIDOutput {
 		System.out.println("Driving " + distance + " inches.");
 		
 		Robot.driveTrain.resetEncPos();
-		
-		pController = new PIDController(0.7, 0.0, 0.0, ((Robot.practiceRobot)?Robot.driveTrain.getRightController():Robot.driveTrain.getLeftController()), this);
+		 
+		//0.43, 0.00, 0.9
+		pController = new PIDController(0.5, 0.0000001, 0.0, ((Robot.practiceRobot)?Robot.driveTrain.getRightController():Robot.driveTrain.getLeftController()), this);
 		pController.setSetpoint(distance / WHEEL_CIRC);
-		pController.setOutputRange(0.4, 0.7);
-		pController.setAbsoluteTolerance(0.1);
+		pController.setOutputRange(-1, 1);
+		pController.setAbsoluteTolerance(0.1); //0.1
 		pController.enable();
 	}
 
 	@Override
 	protected void initialize() {
 		Robot.driveTrain.resetEncPos();
-
+/*
 		Robot.driveTrain.frontLeft.setVoltageRampRate(96);
 		Robot.driveTrain.frontRight.setVoltageRampRate(96);
 		Robot.driveTrain.rearLeft.setVoltageRampRate(96);
 		Robot.driveTrain.rearRight.setVoltageRampRate(96);
-	}
+*/	}
 
 	@Override
 	protected void execute() {
@@ -73,6 +74,7 @@ public class DriveDistForward extends Command implements PIDOutput {
 	@Override
 	protected boolean isFinished() {
 		return pController.onTarget();
+		//return false;
 	}
 
 	@Override
@@ -93,6 +95,5 @@ public class DriveDistForward extends Command implements PIDOutput {
 	@Override
 	public void pidWrite(double output) {
 		curPidVal = output;
-		curvePidVal = output;
 	}
 }

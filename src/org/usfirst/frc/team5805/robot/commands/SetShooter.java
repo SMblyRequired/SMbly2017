@@ -4,7 +4,12 @@ import org.usfirst.frc.team5805.robot.Robot;
 import org.usfirst.frc.team5805.robot.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+/**
+ * 
+ * @author SMBly Required
+ * @deprecated
+ * 
+ */
 public class SetShooter extends Command{
 
 	public final static int START = 0, STOP = 1, SPEED_UP = 2, SPEED_DOWN = 3;	
